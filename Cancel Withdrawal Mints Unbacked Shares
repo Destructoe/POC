@@ -1,0 +1,19 @@
+```solidity
+    function cancelWithdrawal(address withdrawer) external onlyManager {
+        uint256 currentEpoch = withdrawalEpoch;
+
+        PendingWithdrawal memory currentPendingWithdrawal = queuedWithdrawal[withdrawer][
+            currentEpoch
+        ];
+
+        queuedWithdrawal[withdrawer][currentEpoch] = PendingWithdrawal({amount: 0, basis: 0});
+        userBasis[withdrawer] += currentPendingWithdrawal.basis;
+
+        withdrawalEpochState[currentEpoch].sharesWithdrawn -= currentPendingWithdrawal.amount;
+
+        _mintVirtual(withdrawer, currentPendingWithdrawal.amount);
+
+        emit WithdrawalCancelled(withdrawer, currentPendingWithdrawal.amount);
+    }
+
+```

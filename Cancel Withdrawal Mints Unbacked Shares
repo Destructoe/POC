@@ -18,3 +18,10 @@
     }
 
 ```
+
+
+There is no check to ensure the original withdrawal was backed by assets.
+
+There is no asset accounting reversal during cancellation.
+
+The function assumes the vault still holds the assets — which may not be true
